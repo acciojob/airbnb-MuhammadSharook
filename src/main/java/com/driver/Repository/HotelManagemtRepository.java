@@ -1,4 +1,4 @@
-package com.driver.repository;
+package com.driver.Repository;
 
 import com.driver.model.Booking;
 import com.driver.model.Facility;
@@ -14,30 +14,31 @@ import java.util.TreeMap;
 @Repository
 public class HotelManagemtRepository {
 
-    static HashMap<String,Hotel> hoteldb = new HashMap<>();
-    static HashMap<Integer, User> userdb = new HashMap<>();
-    static HashMap<String, Booking> bookingsdb = new HashMap<>();
-    static HashMap<Integer, List<Booking>> per_person_bookings = new HashMap<>();
+     HashMap<String,Hotel> hoteldb = new HashMap<>();
+     HashMap<Integer, User> userdb = new HashMap<>();
+     HashMap<String, Booking> bookingsdb = new HashMap<>();
+     HashMap<Integer, List<Booking>> per_person_bookings = new HashMap<>();
 
-    public static String addHotel(Hotel hotel)
+    public  String addHotel(Hotel hotel)
     {
-        if(hotel == null || hotel.getHotelName() == null || hoteldb.containsKey(hotel.getHotelName()))
+        if(hotel == null || hotel.getHotelName() == null)
         {
             return "FAILURE";
         }
-        else
+        else if(hoteldb.containsKey(hotel.getHotelName()))
         {
-            hoteldb.put(hotel.getHotelName(),hotel);
-            return "SUCCESS";
+            return "FAILURE";
         }
+        hoteldb.put(hotel.getHotelName(),hotel);
+        return "SUCCESS";
     }
 
-    public static Integer addUser(User user) {
+    public  Integer addUser(User user) {
         userdb.put(user.getAadharCardNo(),user);
         return user.getAadharCardNo();
     }
 
-    public static String getHotelWithMostFacilities() {
+    public  String getHotelWithMostFacilities() {
         int max_facilities = 0;
         String max_hotelname = "";
         TreeMap<String, Hotel> tm = new TreeMap<>(hoteldb);
@@ -49,13 +50,15 @@ public class HotelManagemtRepository {
             {
                 max_facilities = no_facilities;
                 max_hotelname = s;
+            } else if (max_facilities == no_facilities && s.compareTo(max_hotelname) < 0) {
+                max_hotelname = s;
             }
         }
 
         return max_hotelname;
     }
 
-    public static int bookARoom(Booking booking) {
+    public  int bookARoom(Booking booking) {
         String booking_Id = booking.getBookingId();
         bookingsdb.put(booking_Id,booking);
 
@@ -74,11 +77,11 @@ public class HotelManagemtRepository {
         }
     }
 
-    public static int getBookings(Integer aadharCard) {
+    public  int getBookings(Integer aadharCard) {
         return per_person_bookings.get(aadharCard).size();
     }
 
-    public static Hotel updateFacilities(List<Facility> newFacilities, String hotelName) {
+    public  Hotel updateFacilities(List<Facility> newFacilities, String hotelName) {
         Hotel hotel = hoteldb.get(hotelName);
         List<Facility> facilities = hotel.getFacilities();
 
@@ -93,7 +96,7 @@ public class HotelManagemtRepository {
         return hotel;
     }
 
-    private static boolean solve(Facility f, List<Facility> newFacilities) {
+    private  boolean solve(Facility f, List<Facility> newFacilities) {
         for(Facility facility : newFacilities)
         {
             if(facility == f)
