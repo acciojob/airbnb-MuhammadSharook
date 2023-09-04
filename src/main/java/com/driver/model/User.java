@@ -12,6 +12,14 @@ public class User {
         this.age = age;
     }
 
+    public int getAadharCardNo() {
+        return aadharCardNo;
+    }
+
+    public void setAadharCardNo(int aadharCardNo) {
+        this.aadharCardNo = aadharCardNo;
+    }
+
     public int getaadharCardNo() {
         return aadharCardNo;
     }
