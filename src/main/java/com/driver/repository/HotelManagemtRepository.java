@@ -60,7 +60,7 @@ public class HotelManagemtRepository {
         bookingsdb.put(booking_Id,booking);
 
         int available_rooms = hoteldb.get(booking.getHotelName()).getAvailableRooms();
-        if(booking.getNoOfRooms() > available_rooms)
+        if(available_rooms < booking.getNoOfRooms())
         {
             return -1;
         }
